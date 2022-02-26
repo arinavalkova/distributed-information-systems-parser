@@ -1,8 +1,8 @@
 package ru.nsu.fit.dis.valkova.parser;
 
 import org.apache.commons.cli.*;
-import ru.nsu.fit.dis.valkova.parser.jaxb.JaxbParserToStatistics;
-import ru.nsu.fit.dis.valkova.parser.stax.StAXParserToStatistics;
+import ru.nsu.fit.dis.valkova.parser.jaxb.JaxbParser;
+import ru.nsu.fit.dis.valkova.parser.stax.StAXParser;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
@@ -29,7 +29,7 @@ public class Main {
     }
 
     private static final Map<ParseMode, ParserToStatistics> parser = Map.of(
-            ParseMode.JAXB, new JaxbParserToStatistics(),
-            ParseMode.STAX, new StAXParserToStatistics()
+            ParseMode.JAXB, new JaxbParser(),
+            ParseMode.STAX, new StAXParser()
     );
 }

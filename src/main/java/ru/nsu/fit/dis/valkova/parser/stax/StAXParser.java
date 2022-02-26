@@ -2,6 +2,7 @@ package ru.nsu.fit.dis.valkova.parser.stax;
 
 import ru.nsu.fit.dis.valkova.parser.ParserToStatistics;
 import ru.nsu.fit.dis.valkova.parser.input.stream.BZip2CompressorInputStreamGetter;
+import ru.nsu.fit.dis.valkova.parser.statistics.StatisticsLogger;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 import static java.lang.Long.compare;
 
-public class StAXParserToStatistics implements ParserToStatistics {
+public class StAXParser implements ParserToStatistics {
 
     @Override
     public void parse(String inPath, String outPath) throws XMLStreamException, IOException {
@@ -44,10 +45,7 @@ public class StAXParserToStatistics implements ParserToStatistics {
                     }
                 }
             }
-            stat.entrySet().stream()
-                    .sorted((a, b) -> compare(b.getValue().size(), a.getValue().size()))
-                    .forEach(e -> System.out.println(e.getKey() + " " + e.getValue().size() + " " +
-                            e.getValue().values().stream().mapToInt(Integer::intValue).sum()));
+            new StatisticsLogger().invoke(stat);
         }
     }
 }
