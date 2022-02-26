@@ -3,14 +3,8 @@
 ]src/main/java/ru/nsu/fit/dis/valkova/parser/inputStream/BZip2CompressorInputStreamGetter.java,a\f\afc455cd387018bd06e77b2b3959ab11cc3515f9
 ~
 Nsrc/main/java/ru/nsu/fit/dis/valkova/parser/inputStream/InputStreamGetter.java,7\9\7947d8e5e95e85b9d092634929eb7b9d86296285
-k
-;src/main/java/ru/nsu/fit/dis/valkova/parser/JaxbParser.java,e\1\e1a225f1451cd8192dd03b420e072edfe0156721
-g
-7src/main/java/ru/nsu/fit/dis/valkova/parser/Parser.java,c\4\c49f714ac9be06e9ef0c97f9d6afd58853f1acc9
 t
 Dsrc/main/java/ru/nsu/fit/dis/valkova/parser/PartialUnmarshaller.java,5\a\5a32781019c3734b83a9f1a5287e573ffb4b0583
-k
-;src/main/java/ru/nsu/fit/dis/valkova/parser/StAXParser.java,2\4\2427d1f1711b5c505a3e4cd924b0e3857c51ada2
 e
 5src/main/java/ru/nsu/fit/dis/valkova/parser/Main.java,d\d\dd9f63a2c8abc03c9be7e47502c6f49827915aee
 <
@@ -29,3 +23,9 @@ Hbuild/generated/sources/xjc/java/main/org/openstreetmap/osm/_0/Node.java,d\7\d
 Qbuild/generated/sources/xjc/java/main/org/openstreetmap/osm/_0/ObjectFactory.java,1\e\1e7d6884d5b64c2e241cf98fcacfb8c631be37a4
 w
 Gbuild/generated/sources/xjc/java/main/org/openstreetmap/osm/_0/Osm.java,e\0\e03b20954270635e355a4e22b31da9741d7c08d1
+5
+a.xml,9\3\93e1d52f36a91cb9d4d0346e78aeab78ba5e7db4
+ƒ
+Ssrc/main/java/ru/nsu/fit/dis/valkova/parser/JaxbParserToStatisticsToStatistics.java,a\f\afe981fa86024ca865d1a412867c9b3d607eb4b6
+w
+Gsrc/main/java/ru/nsu/fit/dis/valkova/parser/StAXParserToStatistics.java,4\f\4f48cc176f3c6cc547e185e0eef2b34d8bcbcb44

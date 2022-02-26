@@ -1,4 +1,4 @@
-package ru.nsu.fit.dis.valkova.parser.inputStream;
+package ru.nsu.fit.dis.valkova.parser.input.stream;
 
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.utils.IOUtils;
