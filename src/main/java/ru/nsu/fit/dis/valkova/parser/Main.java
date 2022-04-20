@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             CommandLine commandLine = getParsedCommandLine(args);
-            parser.get(ParseMode.JAXB).parse(commandLine.getOptionValue("i"), commandLine.getOptionValue("o"));
+            parser.get(ParseMode.STAX).parse(commandLine.getOptionValue("i"), commandLine.getOptionValue("o"));
         } catch (IOException | XMLStreamException | ParseException | JAXBException e) {
             e.printStackTrace();
         }
