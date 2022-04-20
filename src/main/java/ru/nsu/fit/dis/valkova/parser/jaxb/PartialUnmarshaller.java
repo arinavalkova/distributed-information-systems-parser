@@ -47,13 +47,6 @@ public class PartialUnmarshaller<T> implements Iterable<T>, Iterator<T> {
                 && eventType != START_ELEMENT
                 || (eventType == START_ELEMENT && !"node".equals(reader.getLocalName()))
         ) {
-            if (eventType == START_ELEMENT) {
-                String s = reader.getLocalName();
-                noNodes = "way".equals(s) || "relation".equals(s);
-                if (noNodes) {
-                    break;
-                }
-            }
             eventType = reader.next();
         }
         return noNodes;
