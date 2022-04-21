@@ -1,4 +1,4 @@
-package ru.nsu.fit.dis.valkova.parser.stax;
+package ru.nsu.fit.dis.valkova.parser.parser.stax;
 
 import ru.nsu.fit.dis.valkova.parser.ParserToStatistics;
 import ru.nsu.fit.dis.valkova.parser.input.stream.BZip2CompressorInputStreamGetter;
@@ -30,23 +30,23 @@ public class StAXParser implements ParserToStatistics {
                 XMLEvent event = eventReader.nextEvent();
                 if (event.isStartElement()) {
                     StartElement element = (StartElement) event;
-                    if (element.getName().toString().equals("node")) {
+                    if ("node".equals(element.getName().getLocalPart())) {
                         Iterator<Attribute> iterator = element.getAttributes();
                         while (iterator.hasNext()) {
                             Attribute attribute = iterator.next();
                             QName name = attribute.getName();
                             String value = attribute.getValue();
-                            if (name.toString().equals("user")) {
+                            if ("user".equals(name.getLocalPart())) {
                                 stat1.merge(value, 1, Integer::sum);
                             }
                         }
-                    } else if (element.getName().toString().equals("tag")) {
+                    } else if ("tag".equals(element.getName().getLocalPart())) {
                         Iterator<Attribute> iterator = element.getAttributes();
                         while (iterator.hasNext()) {
                             Attribute attribute = iterator.next();
                             QName name = attribute.getName();
                             String value = attribute.getValue();
-                            if (name.toString().equals("k")) {
+                            if ("k".equals(name.getLocalPart())) {
                                 stat2.merge(value, 1, Integer::sum);
                             }
                         }

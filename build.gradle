@@ -16,6 +16,8 @@ dependencies {
     implementation "com.sun.xml.bind:jaxb-core:2.3.0"
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
 
+    implementation 'org.postgresql:postgresql:42.3.3'
+
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 

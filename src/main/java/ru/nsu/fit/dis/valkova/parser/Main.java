@@ -1,8 +1,8 @@
 package ru.nsu.fit.dis.valkova.parser;
 
 import org.apache.commons.cli.*;
-import ru.nsu.fit.dis.valkova.parser.jaxb.JaxbParser;
-import ru.nsu.fit.dis.valkova.parser.stax.StAXParser;
+import ru.nsu.fit.dis.valkova.parser.parser.jaxb.JaxbParser;
+import ru.nsu.fit.dis.valkova.parser.parser.stax.StAXParser;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;

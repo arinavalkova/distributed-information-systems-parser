@@ -1,4 +1,4 @@
-package ru.nsu.fit.dis.valkova.parser.jaxb;
+package ru.nsu.fit.dis.valkova.parser.parser.jaxb;
 
 import lombok.SneakyThrows;
 

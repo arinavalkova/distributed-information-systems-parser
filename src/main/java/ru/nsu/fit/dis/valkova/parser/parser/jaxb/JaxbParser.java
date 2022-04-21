@@ -1,9 +1,9 @@
-package ru.nsu.fit.dis.valkova.parser.jaxb;
+package ru.nsu.fit.dis.valkova.parser.parser.jaxb;
 
+import org.openstreetmap.osm._0.Node;
+import org.openstreetmap.osm._0.Tag;
 import ru.nsu.fit.dis.valkova.parser.ParserToStatistics;
 import ru.nsu.fit.dis.valkova.parser.input.stream.BZip2CompressorInputStreamGetter;
-import ru.nsu.fit.dis.valkova.parser.jaxb.attributes.Node;
-import ru.nsu.fit.dis.valkova.parser.jaxb.attributes.Tag;
 import ru.nsu.fit.dis.valkova.parser.statistics.StatisticsLogger;
 
 import javax.xml.bind.JAXBException;
