@@ -15,9 +15,7 @@ public class DataBaseInitializationFromFile implements DataBaseInitialization {
 
     private static final Logger logger = LogManager.getLogger(DataBaseInitializationFromFile.class);
 
-    //"src\\main\\resources\\initDB.sql"
-
-    public void initializeFromFile(String fileName, Connection connection) throws SQLException {
+    public void initializeFromFile(String fileName, Connection connection) throws SQLException, IOException {
         File file = new File(fileName);
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             StringBuilder stringBuilder = new StringBuilder("");
@@ -26,13 +24,8 @@ public class DataBaseInitializationFromFile implements DataBaseInitialization {
             }
             try (Statement statement = connection.createStatement()) {
                 statement.execute(new String(stringBuilder));
+                connection.commit();
                 logger.info("database initialized");
-            }
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.close();
             }
         }
     }

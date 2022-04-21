@@ -22,6 +22,8 @@ public class PartialUnmarshaller<T> implements Iterable<T>, Iterator<T> {
     private final XMLStreamReader reader;
     boolean endOfNodes = false;
 
+    private int nodeCount = 0;
+
     public PartialUnmarshaller(InputStream stream, Class<T> clazz) throws XMLStreamException, JAXBException {
         this.clazz = clazz;
         this.unmarshaller = JAXBContext.newInstance(clazz).createUnmarshaller();
@@ -37,7 +39,7 @@ public class PartialUnmarshaller<T> implements Iterable<T>, Iterator<T> {
     @Override
     public boolean hasNext() {
         endOfNodes = skipElements();
-        return !endOfNodes && reader.hasNext();
+        return !endOfNodes && reader.hasNext() && nodeCount++ < 1000;
     }
 
     boolean skipElements() throws XMLStreamException {

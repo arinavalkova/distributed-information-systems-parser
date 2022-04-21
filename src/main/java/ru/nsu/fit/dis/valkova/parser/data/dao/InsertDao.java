@@ -1,14 +1,26 @@
 package ru.nsu.fit.dis.valkova.parser.data.dao;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
-public interface InsertDao<T> {
+public abstract class InsertDao<T> {
 
-    List<T> getList(int id);
+    private final Connection connection;
 
-    void statementInsert(T object);
+    protected InsertDao(Connection connection) {
+        this.connection = connection;
+    }
 
-    void preparedInsert(T object);
+    abstract List<T> getList(int id);
 
-    void batchInsert(List<T> list);
+    abstract void statementInsert(T object) throws SQLException;
+
+    abstract void preparedInsert(T object);
+
+    abstract void batchInsert(List<T> list);
+
+    public Connection getConnection() {
+        return connection;
+    }
 }

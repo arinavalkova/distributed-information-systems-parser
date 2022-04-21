@@ -7,6 +7,7 @@ import ru.nsu.fit.dis.valkova.parser.parser.stax.StAXParser;
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 
 public class Main {
@@ -15,7 +16,8 @@ public class Main {
         try {
             CommandLine commandLine = getParsedCommandLine(args);
             parser.get(ParseMode.JAXB).parse(commandLine.getOptionValue("i"), commandLine.getOptionValue("o"));
-        } catch (IOException | XMLStreamException | ParseException | JAXBException e) {
+        } catch (IOException | XMLStreamException | ParseException | JAXBException | SQLException e) {
+            e.getLocalizedMessage();
             e.printStackTrace();
         }
     }
