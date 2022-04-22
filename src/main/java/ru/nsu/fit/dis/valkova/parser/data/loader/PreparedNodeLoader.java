@@ -21,4 +21,9 @@ public class PreparedNodeLoader extends NodeLoader {
             getTagInsertDao().preparedInsert(new TagEntity(node.getId(), tag.getK(), tag.getV()));
         }
     }
+
+    @Override
+    public void finalizeLoad() throws SQLException {
+
+    }
 }

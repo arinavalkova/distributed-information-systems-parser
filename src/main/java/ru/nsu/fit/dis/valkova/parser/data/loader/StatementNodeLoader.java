@@ -21,4 +21,9 @@ public class StatementNodeLoader extends NodeLoader {
             getTagInsertDao().statementInsert(new TagEntity(node.getId(), tag.getK(), tag.getV()));
         }
     }
+
+    @Override
+    public void finalizeLoad() throws SQLException {
+
+    }
 }

@@ -19,8 +19,8 @@ public class Main {
             CommandLine commandLine = getParsedCommandLine(args);
 
             List<ParserToStatistics> listOfParser = Arrays.asList(
-//                    new JaxbParser(LoaderMode.STATEMENT),
-//                    new JaxbParser(LoaderMode.PREPARED),
+                    new JaxbParser(LoaderMode.STATEMENT),
+                    new JaxbParser(LoaderMode.PREPARED),
                     new JaxbParser(LoaderMode.BATCH)
             );
 

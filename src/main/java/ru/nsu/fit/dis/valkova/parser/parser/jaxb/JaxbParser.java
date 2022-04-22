@@ -28,13 +28,13 @@ import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 
 public class JaxbParser implements ParserToStatistics {
 
-    private LoaderMode loaderMode;
+    private final LoaderMode loaderMode;
     private static final String DDL_DATABASE_SQL = "src\\main\\resources\\ddl\\database.sql";
     private static final Logger logger = LogManager.getLogger(JaxbParser.class);
 
-    private Map<LoaderMode, Loader> loaderMap;
     private int nodeCount = 0;
     private int insertsCount = 0;
+    private int insertsCountForBatch = 0;
 
     public JaxbParser(LoaderMode loaderMode) {
         this.loaderMode = loaderMode;
@@ -51,7 +51,7 @@ public class JaxbParser implements ParserToStatistics {
             new DataBaseInitializationFromFile()
                     .initializeFromFile(DDL_DATABASE_SQL, connection);
 
-            loaderMap = Map.of(
+            Map<LoaderMode, Loader> loaderMap = Map.of(
                     LoaderMode.STATEMENT, new StatementNodeLoader(connection),
                     LoaderMode.PREPARED, new PreparedNodeLoader(connection),
                     LoaderMode.BATCH, new BatchNodeLoader(connection)
@@ -63,6 +63,7 @@ public class JaxbParser implements ParserToStatistics {
             NodeLoader loader = (NodeLoader) loaderMap.get(loaderMode);
 
             double time = 0;
+            double startTime;
 
             while (reader.hasNext()) {
                 int event = reader.next();
@@ -71,23 +72,34 @@ public class JaxbParser implements ParserToStatistics {
                     Node node = (Node) unmarshaller.unmarshal(reader);
                     List<Tag> tags = node.getTag();
                     insertsCount += tags.size() + 1;
+                    insertsCountForBatch += tags.size() + 1;;
                     for (Tag tag : tags) {
                         stat2.merge(tag.getK(), 1, Integer::sum);
                     }
                     stat1.merge(node.getUser(), 1, Integer::sum);
-                    var startTime = System.currentTimeMillis();
+                    startTime = System.currentTimeMillis();
                     loader.load(node);
+                    if (insertsCountForBatch > 5000) {
+                        loader.finalizeLoad();
+                        insertsCountForBatch = 0;
+                    }
                     var curTime = System.currentTimeMillis() - startTime;
                     time += curTime;
                 }
             }
 
-            loader.finalizeLoader();
-
-            if (time != 0) {
-                time = (double) insertsCount * 1000 / time;
+            startTime = System.currentTimeMillis();
+            if (insertsCountForBatch > 0) {
+                loader.finalizeLoad();
             }
-            logger.info(loaderMode.toString() + " " + time + " inserts/sec");
+            var curTime = System.currentTimeMillis() - startTime;
+            time += curTime;
+
+            double speed = 0;
+            if (time != 0) {
+                speed = (double) insertsCount * 1000 / time;
+            }
+            logger.info(loaderMode.toString() + " " + speed + " inserts/sec");
 //            StatisticsLogger statisticsLogger = new StatisticsLogger();
 //            statisticsLogger.invoke(stat1, "1. ");
 //            statisticsLogger.invoke(stat2, "2. ");

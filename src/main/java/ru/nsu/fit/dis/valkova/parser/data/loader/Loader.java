@@ -4,4 +4,5 @@ import java.sql.SQLException;
 
 public interface Loader {
     void load(Object object) throws SQLException;
+    void finalizeLoad() throws SQLException;
 }

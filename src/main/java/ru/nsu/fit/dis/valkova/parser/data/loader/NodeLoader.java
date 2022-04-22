@@ -36,11 +36,4 @@ public abstract class NodeLoader implements Loader {
     public Connection getConnection() {
         return connection;
     }
-
-
-    public void finalizeLoader() throws SQLException {
-        batch.executeBatch();
-        connection.commit();
-    }
-
 }
