@@ -34,6 +34,7 @@ public class JaxbParser implements ParserToStatistics {
 
     private Map<LoaderMode, Loader> loaderMap;
     private int nodeCount = 0;
+    private int insertsCount = 0;
 
     public JaxbParser(LoaderMode loaderMode) {
         this.loaderMode = loaderMode;
@@ -61,7 +62,7 @@ public class JaxbParser implements ParserToStatistics {
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             NodeLoader loader = (NodeLoader) loaderMap.get(loaderMode);
 
-            var startTime = System.currentTimeMillis();
+            double time = 0;
 
             while (reader.hasNext()) {
                 int event = reader.next();
@@ -69,18 +70,24 @@ public class JaxbParser implements ParserToStatistics {
                     if (nodeCount++ > 5000) break;
                     Node node = (Node) unmarshaller.unmarshal(reader);
                     List<Tag> tags = node.getTag();
+                    insertsCount += tags.size() + 1;
                     for (Tag tag : tags) {
                         stat2.merge(tag.getK(), 1, Integer::sum);
                     }
                     stat1.merge(node.getUser(), 1, Integer::sum);
+                    var startTime = System.currentTimeMillis();
                     loader.load(node);
+                    var curTime = System.currentTimeMillis() - startTime;
+                    time += curTime;
                 }
             }
 
             loader.finalizeLoader();
 
-            var time = System.currentTimeMillis() - startTime;
-            logger.info(loaderMode.toString() + " " + time);
+            if (time != 0) {
+                time = (double) insertsCount * 1000 / time;
+            }
+            logger.info(loaderMode.toString() + " " + time + " inserts/sec");
 //            StatisticsLogger statisticsLogger = new StatisticsLogger();
 //            statisticsLogger.invoke(stat1, "1. ");
 //            statisticsLogger.invoke(stat2, "2. ");
