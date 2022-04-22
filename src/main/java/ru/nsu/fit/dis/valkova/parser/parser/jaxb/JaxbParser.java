@@ -1,18 +1,22 @@
 package ru.nsu.fit.dis.valkova.parser.parser.jaxb;
 
-import org.openstreetmap.osm._0.Node;
-import org.openstreetmap.osm._0.Tag;
-import ru.nsu.fit.dis.valkova.parser.ParseMode;
+import generated.Node;
+import generated.Tag;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.nsu.fit.dis.valkova.parser.ParserToStatistics;
 import ru.nsu.fit.dis.valkova.parser.data.DataBaseConnection;
 import ru.nsu.fit.dis.valkova.parser.data.initialization.DataBaseInitializationFromFile;
 import ru.nsu.fit.dis.valkova.parser.data.loader.*;
 import ru.nsu.fit.dis.valkova.parser.input.stream.BZip2CompressorInputStreamGetter;
-import ru.nsu.fit.dis.valkova.parser.parser.stax.StAXParser;
 import ru.nsu.fit.dis.valkova.parser.statistics.StatisticsLogger;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,12 +24,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+
 public class JaxbParser implements ParserToStatistics {
 
-    private static final LoaderMode loaderMode = LoaderMode.STATEMENT;
+    private LoaderMode loaderMode;
     private static final String DDL_DATABASE_SQL = "src\\main\\resources\\ddl\\database.sql";
+    private static final Logger logger = LogManager.getLogger(JaxbParser.class);
 
     private Map<LoaderMode, Loader> loaderMap;
+    private int nodeCount = 0;
+
+    public JaxbParser(LoaderMode loaderMode) {
+        this.loaderMode = loaderMode;
+    }
 
     @Override
     public void parse(String inPath, String outPath)
@@ -44,19 +56,34 @@ public class JaxbParser implements ParserToStatistics {
                     LoaderMode.BATCH, new BatchNodeLoader(connection)
             );
 
-            var nodeReader1 = new PartialUnmarshaller<>(inputStream, Node.class);
-            for (Node node : nodeReader1) {
-                List<Tag> tags = node.getTag();
-                for (Tag tag : tags) {
-                    stat1.merge(tag.getK(), 1, Integer::sum);
+            XMLStreamReader reader = XMLInputFactory.newInstance().createXMLStreamReader(inputStream);
+            JAXBContext jaxbContext = JAXBContext.newInstance(Node.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            NodeLoader loader = (NodeLoader) loaderMap.get(loaderMode);
+
+            var startTime = System.currentTimeMillis();
+
+            while (reader.hasNext()) {
+                int event = reader.next();
+                if (event == START_ELEMENT && reader.getLocalName().equals("node")) {
+                    if (nodeCount++ > 5000) break;
+                    Node node = (Node) unmarshaller.unmarshal(reader);
+                    List<Tag> tags = node.getTag();
+                    for (Tag tag : tags) {
+                        stat2.merge(tag.getK(), 1, Integer::sum);
+                    }
+                    stat1.merge(node.getUser(), 1, Integer::sum);
+                    loader.load(node);
                 }
-                stat1.merge(node.getUser(), 1, Integer::sum);
-                loaderMap.get(loaderMode).load(node);
             }
 
-            StatisticsLogger statisticsLogger = new StatisticsLogger();
-            statisticsLogger.invoke(stat1, "1. ");
-            statisticsLogger.invoke(stat2, "2. ");
+            loader.finalizeLoader();
+
+            var time = System.currentTimeMillis() - startTime;
+            logger.info(loaderMode.toString() + " " + time);
+//            StatisticsLogger statisticsLogger = new StatisticsLogger();
+//            statisticsLogger.invoke(stat1, "1. ");
+//            statisticsLogger.invoke(stat2, "2. ");
         }
     }
 }

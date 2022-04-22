@@ -1,51 +1,59 @@
 package ru.nsu.fit.dis.valkova.parser.data.dao;
 
-import org.openstreetmap.osm._0.Node;
+import generated.Node;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.util.List;
+import java.sql.*;
 
 public class NodeInsertDao extends InsertDao<Node> {
 
-    public NodeInsertDao(Connection connection) {
-        super(connection);
+    private static final String preparedInsertLine =
+            "insert into nodes (" +
+                    "id, latitude, longitude, username, uid, version, changeset, timestamp" +
+                    ") values (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    private final PreparedStatement preparedStatement;
+
+    public NodeInsertDao(Connection connection, Statement batch) throws SQLException {
+        super(connection, batch);
+        preparedStatement = connection.prepareStatement(preparedInsertLine);
     }
 
     @Override
-    public List<Node> getList(int id) {
-        return null;
-    }
-
-    @Override
-    public void statementInsert(Node object) throws SQLException {
-        Statement statement = getConnection().createStatement();
-        String sql =
-                "insert into nodes (" +
-                        "id, latitude, longitude, username, uid, version, changeset, timestamp" +
-                        ") values (" +
-                        object.getId() + ", " +
-                        object.getLat() + ", " +
-                        object.getLon() + ", '" +
-                        object.getUser().replace('\'', '\\') + "', " +
-                        object.getUid() + ", " +
-                        object.getVersion() + ", " +
-                        object.getChangeset() + ", " +
-                        "timestamp '" +
-                        Timestamp.from(object.getTimestamp().toGregorianCalendar().toInstant()) + "')";
-        statement.execute(sql);
+    public void statementInsert(Node node) throws SQLException {
+        try (Statement statement = getConnection().createStatement()) {
+            statement.execute(getSqlStatement(node));
+        }
         getConnection().commit();
     }
 
     @Override
-    public void preparedInsert(Node object) {
+    public void preparedInsert(Node node) throws SQLException {
+        preparedStatement.setInt(1, node.getId().intValue());
+        preparedStatement.setDouble(2, node.getLat());
+        preparedStatement.setDouble(3, node.getLon());
+        preparedStatement.setString(4, node.getUser());
+        preparedStatement.setInt(5, node.getUid().intValue());
+        preparedStatement.setInt(6, node.getVersion().intValue());
+        preparedStatement.setInt(7, node.getChangeset().intValue());
+        preparedStatement.setTimestamp(8, Timestamp.from(node.getTimestamp().toGregorianCalendar().toInstant()));
 
+        preparedStatement.execute();
+        getConnection().commit();
     }
 
     @Override
-    public void batchInsert(List<Node> list) {
-
+    public String getSqlStatement(Node node) {
+        return "insert into nodes (" +
+                "id, latitude, longitude, username, uid, version, changeset, timestamp" +
+                ") values (" +
+                node.getId() + ", " +
+                node.getLat() + ", " +
+                node.getLon() + ", '" +
+                node.getUser().replace('\'', '\\') + "', " +
+                node.getUid() + ", " +
+                node.getVersion() + ", " +
+                node.getChangeset() + ", " +
+                "timestamp '" +
+                Timestamp.from(node.getTimestamp().toGregorianCalendar().toInstant()) + "')";
     }
 }

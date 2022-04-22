@@ -1,14 +1,15 @@
 package ru.nsu.fit.dis.valkova.parser.data.loader;
 
-import org.openstreetmap.osm._0.Node;
-import org.openstreetmap.osm._0.Tag;
+import generated.Node;
+import generated.Tag;
+import ru.nsu.fit.dis.valkova.parser.data.entity.TagEntity;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class StatementNodeLoader extends NodeLoader {
 
-    public StatementNodeLoader(Connection connection) {
+    public StatementNodeLoader(Connection connection) throws SQLException {
         super(connection);
     }
 
@@ -17,7 +18,7 @@ public class StatementNodeLoader extends NodeLoader {
         Node node = (Node) object;
         getNodeInsertDao().statementInsert(node);
         for (Tag tag : node.getTag()) {
-            getTagInsertDao().statementInsert(tag);
+            getTagInsertDao().statementInsert(new TagEntity(node.getId(), tag.getK(), tag.getV()));
         }
     }
 }
