@@ -1,5 +1,6 @@
 package ru.nsu.fit.dis.valkova.parser.data.dao;
 
+
 import generated.Node;
 
 import java.sql.*;

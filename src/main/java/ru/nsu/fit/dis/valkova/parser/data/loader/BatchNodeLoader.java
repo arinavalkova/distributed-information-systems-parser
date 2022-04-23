@@ -1,13 +1,12 @@
 package ru.nsu.fit.dis.valkova.parser.data.loader;
 
-import generated.Node;
-import generated.Tag;
+import ru.nsu.fit.dis.valkova.parser.dao.Node;
+import ru.nsu.fit.dis.valkova.parser.dao.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.nsu.fit.dis.valkova.parser.data.dao.InsertDao;
 import ru.nsu.fit.dis.valkova.parser.data.dao.NodeInsertDao;
 import ru.nsu.fit.dis.valkova.parser.data.dao.TagInsertDao;
-import ru.nsu.fit.dis.valkova.parser.data.entity.TagEntity;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -33,7 +32,7 @@ public class BatchNodeLoader extends NodeLoader {
         nodeInsertDao.batchInsert(node);
         nodeBatchCount = getBatchCount(nodeBatchCount, nodeInsertDao);
         for (Tag tag : node.getTag()) {
-            tagInsertDao.batchInsert(new TagEntity(node.getId(), tag.getK(), tag.getV()));
+            tagInsertDao.batchInsert(new Tag(node.getId(), tag.getK(), tag.getV()));
             tagBatchCount = getBatchCount(tagBatchCount, tagInsertDao);
         }
     }

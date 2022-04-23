@@ -1,13 +1,13 @@
 package ru.nsu.fit.dis.valkova.parser.data.dao;
 
-import ru.nsu.fit.dis.valkova.parser.data.entity.TagEntity;
+import generated.Tag;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class TagInsertDao extends InsertDao<TagEntity> {
+public class TagInsertDao extends InsertDao<Tag> {
 
     private static final String preparedInsertLine =
             "insert into tags (" +
@@ -24,24 +24,24 @@ public class TagInsertDao extends InsertDao<TagEntity> {
     }
 
     @Override
-    public void statementInsert(TagEntity tagEntity) throws SQLException {
+    public void statementInsert(Tag tag) throws SQLException {
         try (Statement statement = getConnection().createStatement()) {
-            statement.execute(getSqlStatement(tagEntity));
+            statement.execute(getSqlStatement(tag));
         }
         getConnection().commit();
     }
 
     @Override
-    public void preparedInsert(TagEntity tagEntity) throws SQLException {
-        addToPrepared(preparedStatement, tagEntity);
+    public void preparedInsert(Tag tag) throws SQLException {
+        addToPrepared(preparedStatement, tag);
 
         preparedStatement.execute();
         getConnection().commit();
     }
 
     @Override
-    public void batchInsert(TagEntity tagEntity) throws SQLException {
-        addToPrepared(batch, tagEntity);
+    public void batchInsert(Tag tag) throws SQLException {
+        addToPrepared(batch, tag);
         batch.addBatch();
     }
 
@@ -51,18 +51,18 @@ public class TagInsertDao extends InsertDao<TagEntity> {
     }
 
     @Override
-    public String getSqlStatement(TagEntity tagEntity) {
+    public String getSqlStatement(Tag tag) {
         return "insert into tags (" +
                 "node_id, key, value" +
                 ") values (" +
-                tagEntity.getId() + ", '" +
-                tagEntity.getK().replace('\'', '\\') + "', '" +
-                tagEntity.getV().replace('\'', '\\') + "')";
+                tag.get() + ", '" +
+                tag.getK().replace('\'', '\\') + "', '" +
+                tag.getV().replace('\'', '\\') + "')";
     }
 
-    public void addToPrepared(PreparedStatement preparedStatement, TagEntity tagEntity) throws SQLException {
-        preparedStatement.setInt(1, tagEntity.getId().intValue());
-        preparedStatement.setString(2, tagEntity.getK());
-        preparedStatement.setString(3, tagEntity.getV());
+    public void addToPrepared(PreparedStatement preparedStatement, TagDTO tag) throws SQLException {
+        preparedStatement.setLong(1, tag.getId());
+        preparedStatement.setString(2, tag.getKey());
+        preparedStatement.setString(3, tag.getValue());
     }
 }

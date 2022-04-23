@@ -1,9 +1,7 @@
 package ru.nsu.fit.dis.valkova.parser.data.loader;
 
-import generated.Node;
-import generated.Tag;
-import ru.nsu.fit.dis.valkova.parser.data.entity.TagEntity;
-
+import ru.nsu.fit.dis.valkova.parser.dao.Node;
+import ru.nsu.fit.dis.valkova.parser.dao.Tag;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -18,7 +16,7 @@ public class StatementNodeLoader extends NodeLoader {
         Node node = (Node) object;
         getNodeInsertDao().statementInsert(node);
         for (Tag tag : node.getTag()) {
-            getTagInsertDao().statementInsert(new TagEntity(node.getId(), tag.getK(), tag.getV()));
+            getTagInsertDao().statementInsert(new Tag(node.getId(), tag.getK(), tag.getV()));
         }
     }
 

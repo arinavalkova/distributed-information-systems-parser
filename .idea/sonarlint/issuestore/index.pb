@@ -21,15 +21,17 @@ w
 Gsrc/main/java/ru/nsu/fit/dis/valkova/parser/parser/stax/StAXParser.java,a\9\a9bbb67f4f88cb6b48ca66d3c65e27a2bc5ed3c7
 M
 src/main/schema/OSMSchema.xsd,3\f\3f88cd04f1ca260a4ef96c906a3eb62bb5d39fcf
-v
-Fsrc/main/java/ru/nsu/fit/dis/valkova/parser/data/entity/TagEntity.java,a\6\a6e48a50c6ad4d2f62d01b038d28a9ed92f8d42f
-
-Osrc/main/java/ru/nsu/fit/dis/valkova/parser/data/loader/PreparedNodeLoader.java,6\a\6a22c2117dba0ed75b659b1740ecef653eb72d86
-€
-Psrc/main/java/ru/nsu/fit/dis/valkova/parser/data/loader/StatementNodeLoader.java,9\4\942c02e948cb96bc5c26230913c6cbb3d1c46ca4
 w
 Gsrc/main/java/ru/nsu/fit/dis/valkova/parser/data/loader/LoaderMode.java,e\5\e5a5091c3b76777bbca65ed25c9259fedd5d3b27
 s
 Csrc/main/java/ru/nsu/fit/dis/valkova/parser/data/loader/Loader.java,f\e\fe92b807539c9a63e85b440d51830f3a36dab199
 |
 Lsrc/main/java/ru/nsu/fit/dis/valkova/parser/statistics/StatisticsLogger.java,e\a\ea44d91209662607d4be531131330551b87ec99e
+w
+Gsrc/main/java/ru/nsu/fit/dis/valkova/parser/data/loader/NodeLoader.java,b\d\bdfb3d6c818f4411f14908bf891d01a9cb963af2
+e
+5src/main/java/ru/nsu/fit/dis/valkova/parser/Main.java,d\d\dd9f63a2c8abc03c9be7e47502c6f49827915aee
+s
+Csrc/main/java/ru/nsu/fit/dis/valkova/parser/entities/TagEntity.java,1\f\1f4ea41efd45f37a146f42a9183ba02ad80cc9c5
+<
+build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
