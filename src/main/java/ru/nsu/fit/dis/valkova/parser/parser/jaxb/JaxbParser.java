@@ -1,7 +1,7 @@
 package ru.nsu.fit.dis.valkova.parser.parser.jaxb;
 
-import ru.nsu.fit.dis.valkova.parser.dao.Node;
-import ru.nsu.fit.dis.valkova.parser.dao.Tag;
+import generated.Node;
+import generated.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.nsu.fit.dis.valkova.parser.ParserToStatistics;
@@ -9,6 +9,7 @@ import ru.nsu.fit.dis.valkova.parser.data.DataBaseConnection;
 import ru.nsu.fit.dis.valkova.parser.data.initialization.DataBaseInitializationFromFile;
 import ru.nsu.fit.dis.valkova.parser.data.loader.*;
 import ru.nsu.fit.dis.valkova.parser.input.stream.BZip2CompressorInputStreamGetter;
+import ru.nsu.fit.dis.valkova.parser.statistics.StatisticsLogger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
