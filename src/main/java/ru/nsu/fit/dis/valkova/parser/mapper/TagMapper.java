@@ -1,8 +1,5 @@
 package ru.nsu.fit.dis.valkova.parser.mapper;
 
-import ru.nsu.fit.dis.valkova.parser.entities.TagEntity;
-
-import java.math.BigInteger;
 //
 //public class TagMapper implements Mapper<Tag, TagEntity> {
 //

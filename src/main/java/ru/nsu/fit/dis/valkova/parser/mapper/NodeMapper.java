@@ -1,7 +1,7 @@
 package ru.nsu.fit.dis.valkova.parser.mapper;
 
-//import ru.nsu.fit.dis.valkova.parser.entities.NodeEntity;
-//import ru.nsu.fit.dis.valkova.parser.entities.TagEntity;
+//import ru.nsu.fit.dis.valkova.parser.rest.entities.NodeEntity;
+//import ru.nsu.fit.dis.valkova.parser.rest.entities.TagEntity;
 //
 //import javax.xml.datatype.DatatypeConfigurationException;
 //import java.util.LinkedList;

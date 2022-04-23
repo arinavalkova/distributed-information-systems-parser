@@ -1,4 +1,4 @@
-package ru.nsu.fit.dis.valkova.parser.entities;
+package ru.nsu.fit.dis.valkova.parser.rest.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +26,7 @@ import java.util.List;
 @Table(name = "nodes")
 public class NodeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
@@ -51,6 +51,6 @@ public class NodeEntity {
     @Column(name = "longitude")
     private Double longitude;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "nodeId")
     private List<TagEntity> tags;
 }

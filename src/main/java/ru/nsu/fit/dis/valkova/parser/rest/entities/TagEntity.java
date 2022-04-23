@@ -1,4 +1,4 @@
-package ru.nsu.fit.dis.valkova.parser.entities;
+package ru.nsu.fit.dis.valkova.parser.rest.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Data
 @Builder
@@ -18,12 +19,13 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Entity
 @Table(name = "tags")
-public class TagEntity {
+public class TagEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false)
-    private Long id;
+    @Column(nullable = false, updatable = false, name = "node_id")
+    private Long nodeId;
 
+    @Id
     @Column(name = "key")
     private String key;
 
