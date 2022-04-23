@@ -15,10 +15,12 @@ public class TagInsertDao extends InsertDao<TagEntity> {
                     ") values (?, ?, ?)";
 
     private final PreparedStatement preparedStatement;
+    private final PreparedStatement batch;
 
-    public TagInsertDao(Connection connection, Statement batch) throws SQLException {
-        super(connection, batch);
+    public TagInsertDao(Connection connection) throws SQLException {
+        super(connection);
         preparedStatement = connection.prepareStatement(preparedInsertLine);
+        batch = connection.prepareStatement(preparedInsertLine);
     }
 
     @Override
@@ -31,12 +33,21 @@ public class TagInsertDao extends InsertDao<TagEntity> {
 
     @Override
     public void preparedInsert(TagEntity tagEntity) throws SQLException {
-        preparedStatement.setInt(1, tagEntity.getId().intValue());
-        preparedStatement.setString(2, tagEntity.getK());
-        preparedStatement.setString(3, tagEntity.getV());
+        addToPrepared(preparedStatement, tagEntity);
 
         preparedStatement.execute();
         getConnection().commit();
+    }
+
+    @Override
+    public void batchInsert(TagEntity tagEntity) throws SQLException {
+        addToPrepared(batch, tagEntity);
+        batch.addBatch();
+    }
+
+    @Override
+    public void finalizeBatch() throws SQLException {
+        batch.executeBatch();
     }
 
     @Override
@@ -47,5 +58,11 @@ public class TagInsertDao extends InsertDao<TagEntity> {
                 tagEntity.getId() + ", '" +
                 tagEntity.getK().replace('\'', '\\') + "', '" +
                 tagEntity.getV().replace('\'', '\\') + "')";
+    }
+
+    public void addToPrepared(PreparedStatement preparedStatement, TagEntity tagEntity) throws SQLException {
+        preparedStatement.setInt(1, tagEntity.getId().intValue());
+        preparedStatement.setString(2, tagEntity.getK());
+        preparedStatement.setString(3, tagEntity.getV());
     }
 }

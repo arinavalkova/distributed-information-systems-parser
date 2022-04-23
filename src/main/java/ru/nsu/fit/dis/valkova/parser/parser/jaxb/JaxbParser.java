@@ -72,26 +72,19 @@ public class JaxbParser implements ParserToStatistics {
                     Node node = (Node) unmarshaller.unmarshal(reader);
                     List<Tag> tags = node.getTag();
                     insertsCount += tags.size() + 1;
-                    insertsCountForBatch += tags.size() + 1;;
                     for (Tag tag : tags) {
                         stat2.merge(tag.getK(), 1, Integer::sum);
                     }
                     stat1.merge(node.getUser(), 1, Integer::sum);
                     startTime = System.currentTimeMillis();
                     loader.load(node);
-                    if (insertsCountForBatch > 5000) {
-                        loader.finalizeLoad();
-                        insertsCountForBatch = 0;
-                    }
                     var curTime = System.currentTimeMillis() - startTime;
                     time += curTime;
                 }
             }
 
             startTime = System.currentTimeMillis();
-            if (insertsCountForBatch > 0) {
-                loader.finalizeLoad();
-            }
+            loader.finalizeLoad();
             var curTime = System.currentTimeMillis() - startTime;
             time += curTime;
 

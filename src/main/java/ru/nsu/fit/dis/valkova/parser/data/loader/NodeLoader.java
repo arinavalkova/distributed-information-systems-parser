@@ -11,22 +11,16 @@ public abstract class NodeLoader implements Loader {
 
     private final NodeInsertDao nodeInsertDao;
     private final TagInsertDao tagInsertDao;
-    private final Statement batch;
     private final Connection connection;
 
     protected NodeLoader(Connection connection) throws SQLException {
         this.connection = connection;
-        batch = connection.createStatement();
-        this.nodeInsertDao = new NodeInsertDao(connection, batch);
-        this.tagInsertDao = new TagInsertDao(connection, batch);
+        this.nodeInsertDao = new NodeInsertDao(connection);
+        this.tagInsertDao = new TagInsertDao(connection);
     }
 
     public NodeInsertDao getNodeInsertDao() {
         return nodeInsertDao;
-    }
-
-    public Statement getBatch() {
-        return batch;
     }
 
     public TagInsertDao getTagInsertDao() {

@@ -1,17 +1,15 @@
 package ru.nsu.fit.dis.valkova.parser.data.dao;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import generated.Node;
+
+import java.sql.*;
 
 public abstract class InsertDao<T> {
 
     private final Connection connection;
-    private final Statement batch;
 
-    protected InsertDao(Connection connection, Statement batch) {
+    protected InsertDao(Connection connection) {
         this.connection = connection;
-        this.batch = batch;
     }
 
     abstract void statementInsert(T object) throws SQLException;
@@ -24,7 +22,7 @@ public abstract class InsertDao<T> {
 
     public abstract void preparedInsert(T object) throws SQLException;
 
-    public void batchInsert(T object) throws SQLException {
-        batch.addBatch(getSqlStatement(object));
-    }
+    public abstract void batchInsert(T object) throws SQLException;
+
+    public abstract void finalizeBatch() throws SQLException;
 }
