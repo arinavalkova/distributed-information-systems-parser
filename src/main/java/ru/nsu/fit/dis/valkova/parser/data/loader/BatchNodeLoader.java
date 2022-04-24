@@ -18,7 +18,6 @@ public class BatchNodeLoader extends NodeLoader {
     private static final Logger logger = LogManager.getLogger(BatchNodeLoader.class);
 
     private int nodeBatchCount = 0;
-    private int tagBatchCount = 0;
 
     public BatchNodeLoader(Connection connection) throws SQLException {
         super(connection);
@@ -31,17 +30,20 @@ public class BatchNodeLoader extends NodeLoader {
         TagInsertDao tagInsertDao = getTagInsertDao();
 
         nodeInsertDao.batchInsert(node);
-        nodeBatchCount = getBatchCount(nodeBatchCount, nodeInsertDao);
+        nodeBatchCount = getBatchCount(nodeBatchCount, nodeInsertDao, tagInsertDao);
         for (Tag tag : node.getTag()) {
             tagInsertDao.batchInsert(new TagEntity(node.getId(), tag.getK(), tag.getV()));
-            tagBatchCount = getBatchCount(tagBatchCount, tagInsertDao);
         }
     }
 
-    public int getBatchCount(int batchCount, InsertDao insertDao) throws SQLException {
+    public int getBatchCount(int batchCount,
+                             NodeInsertDao nodeInsertDao,
+                             TagInsertDao tagInsertDao) throws SQLException {
         batchCount++;
         if (batchCount > 5000) {
-            insertDao.finalizeBatch();
+            nodeInsertDao.finalizeBatch();
+            getConnection().commit();
+            tagInsertDao.finalizeBatch();
             logger.info(BATCH);
             getConnection().commit();
             return 0;
@@ -51,15 +53,11 @@ public class BatchNodeLoader extends NodeLoader {
 
     @Override
     public void finalizeLoad() throws SQLException {
-        if (nodeBatchCount > 0) {
-            getNodeInsertDao().finalizeBatch();
-            logger.info(BATCH);
-            getConnection().commit();
-        }
-        if (tagBatchCount > 0) {
-            getTagInsertDao().finalizeBatch();
-            logger.info(BATCH);
-            getConnection().commit();
-        }
+        getNodeInsertDao().finalizeBatch();
+        logger.info(BATCH);
+        getConnection().commit();
+        getTagInsertDao().finalizeBatch();
+        logger.info(BATCH);
+        getConnection().commit();
     }
 }

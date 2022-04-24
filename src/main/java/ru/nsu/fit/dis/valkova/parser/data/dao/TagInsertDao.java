@@ -61,7 +61,7 @@ public class TagInsertDao extends InsertDao<TagEntity> {
     }
 
     public void addToPrepared(PreparedStatement preparedStatement, TagEntity tagEntity) throws SQLException {
-        preparedStatement.setInt(1, tagEntity.getId().intValue());
+        preparedStatement.setLong(1, tagEntity.getId().longValue());
         preparedStatement.setString(2, tagEntity.getK());
         preparedStatement.setString(3, tagEntity.getV());
     }

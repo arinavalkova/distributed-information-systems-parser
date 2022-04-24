@@ -64,13 +64,13 @@ public class NodeInsertDao extends InsertDao<Node> {
     }
 
     public void addToPrepared(PreparedStatement preparedStatement, Node node) throws SQLException {
-        preparedStatement.setInt(1, node.getId().intValue());
+        preparedStatement.setLong(1, node.getId().longValue());
         preparedStatement.setDouble(2, node.getLat());
         preparedStatement.setDouble(3, node.getLon());
         preparedStatement.setString(4, node.getUser());
-        preparedStatement.setInt(5, node.getUid().intValue());
-        preparedStatement.setInt(6, node.getVersion().intValue());
-        preparedStatement.setInt(7, node.getChangeset().intValue());
+        preparedStatement.setLong(5, node.getUid().longValue());
+        preparedStatement.setLong(6, node.getVersion().longValue());
+        preparedStatement.setLong(7, node.getChangeset().longValue());
         preparedStatement.setTimestamp(8, Timestamp.from(node.getTimestamp().toGregorianCalendar().toInstant()));
     }
 }

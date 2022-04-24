@@ -2,6 +2,7 @@ package ru.nsu.fit.dis.valkova.parser.rest.services.search;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.nsu.fit.dis.valkova.parser.rest.entities.NodeEntity;
 import ru.nsu.fit.dis.valkova.parser.rest.repository.NodeRepository;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class SearchNodeService implements SearchNode {
     private final NodeRepository nodeRepository;
 

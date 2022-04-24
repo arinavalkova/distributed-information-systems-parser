@@ -68,7 +68,7 @@ public class JaxbParser implements ParserToStatistics {
             while (reader.hasNext()) {
                 int event = reader.next();
                 if (event == START_ELEMENT && reader.getLocalName().equals("node")) {
-                    if (nodeCount++ > 5000) break;
+//                    if (nodeCount++ > 100000) break;
                     Node node = (Node) unmarshaller.unmarshal(reader);
                     List<Tag> tags = node.getTag();
                     insertsCount += tags.size() + 1;

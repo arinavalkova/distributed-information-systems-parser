@@ -52,7 +52,7 @@ public class InfoController {
     @GetMapping("/node/search")
     public ResponseEntity<List<NodeEntity>> search(@RequestParam("latitude") Double latitude,
                                                    @RequestParam("longitude") Double longitude,
-                                                   @RequestParam("radius") Double radius) {
+                                                   @RequestParam("" + "") Double radius) {
         log.info("searching...");
         return ResponseEntity.ok(searchNodeService.search(latitude, longitude, radius));
     }
