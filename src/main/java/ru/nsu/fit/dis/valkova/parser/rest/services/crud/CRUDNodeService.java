@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.nsu.fit.dis.valkova.parser.rest.entities.NodeEntity;
 import ru.nsu.fit.dis.valkova.parser.rest.repository.NodeRepository;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -22,14 +24,13 @@ public class CRUDNodeService implements CRUDNode {
 
     @Override
     public NodeEntity get(Long nodeId) {
-        if (nodeRepository.findById(nodeId).isPresent()) {
-            return nodeRepository.findById(nodeId).get();
-        }
-        return null;
+        return nodeRepository.findById(nodeId).orElse(null);
     }
 
     @Override
     public NodeEntity update(NodeEntity nodeEntity) {
+        System.out.println(nodeEntity);
+        delete(nodeEntity.getId());
         return nodeRepository.save(nodeEntity);
     }
 

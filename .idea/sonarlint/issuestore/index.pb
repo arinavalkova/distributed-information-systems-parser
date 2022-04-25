@@ -5,3 +5,15 @@ q
 Asrc/main/java/ru/nsu/fit/dis/valkova/parser/mapper/TagMapper.java,9\e\9e58fcb582ddd43876c593f769579bf9ece0d9d8
 r
 Bsrc/main/java/ru/nsu/fit/dis/valkova/parser/mapper/NodeMapper.java,a\b\ab3095cd820c20b5c575766812142474ba8b62b6
+n
+>src/main/java/ru/nsu/fit/dis/valkova/parser/mapper/Mapper.java,1\0\105eacae3c788150661ffe86641943bc2c76bcbd
+€
+Psrc/main/java/ru/nsu/fit/dis/valkova/parser/rest/services/search/SearchNode.java,f\8\f8610971bdd3c76774952e77dc02642c80aac2c1
+q
+Asrc/main/java/ru/nsu/fit/dis/valkova/parser/rest/Application.java,0\5\054eb4769e8baac5be48816bb7ef6b06edda464f
+
+Osrc/main/java/ru/nsu/fit/dis/valkova/parser/data/loader/PreparedNodeLoader.java,6\a\6a22c2117dba0ed75b659b1740ecef653eb72d86
+v
+Fsrc/main/java/ru/nsu/fit/dis/valkova/parser/data/entity/TagEntity.java,a\6\a6e48a50c6ad4d2f62d01b038d28a9ed92f8d42f
+‡
+Wsrc/main/java/ru/nsu/fit/dis/valkova/parser/rest/services/search/SearchNodeService.java,e\0\e0dd062dc37cae753b1e0850c48c8ce549681dad
